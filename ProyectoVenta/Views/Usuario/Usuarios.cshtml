@@ -77,6 +77,7 @@
 </nav>
 
 
+
 <div class="card">
     <div class="card-header">
         Lista de usuarios
@@ -101,12 +102,10 @@
                 </table>
             </div>
         </div>
-
-
-
     </div>
-
 </div>
+
+
 
 <div id="modalUsuario" class="modal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
@@ -192,7 +191,8 @@
 
         $(document).ready(function () {
 
-            $('#tbdata thead tr').clone(true).addClass('filters').appendTo('#tbdata thead')
+            /*QUITO CABECERA PARA EVITAR DUPLICAR NOMBRE DE COLUMNAS*/
+            //$('#tbdata thead tr').clone(true).addClass('filters').appendTo('#tbdata thead')
 
             tabla = $("#tbdata").DataTable({
                 orderCellsTop: true,
@@ -258,11 +258,6 @@
                             $(api.column(colIdx).header()).index()
                         );
                         var title = $(cell).text();
-
-                        //especificar que columna debe mostrar la caja de filtro
-                        if ($(api.column(colIdx).header()).index() >= 0 && $(api.column(colIdx).header()).index() != 2) {
-                            $(cell).html('<input type="text" placeholder="buscar..."/>');
-                        }
 
                         // On every keypress in this input
                         $('input', $('.filters th').eq($(api.column(colIdx).header()).index())).off('keyup change').on('keyup change', function (e) {
@@ -386,7 +381,7 @@
             $("#txtclave").val(data.clave)
             $("#txtclaveconfirmar").val(data.clave)
             $("#txtrol").val(data.IdRol)
-        
+
 
             console.log(data);
         })
