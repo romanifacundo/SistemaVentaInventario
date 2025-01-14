@@ -10,6 +10,8 @@ namespace ProyectoVenta.Controllers
     public class UsuarioController : Controller
     {
         DA_Usuario _daUsuario = new DA_Usuario();
+
+        [Authorize(Roles = "Administrador")]
         public IActionResult Usuarios()
         {
             return View();

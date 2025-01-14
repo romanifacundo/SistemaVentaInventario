@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProyectoVenta</title>
-    
+
     <link rel="stylesheet" href="~/css/bootsWatch.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoVenta.styles.css" asp-append-version="true" />
@@ -16,44 +16,48 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">SISTEMA DE VENTAS</a>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">SISTEMA DE VENTAS</a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="navbar-collapse collapse" id="navbarColor01" style="">
-               <ul class="navbar-nav me-auto">
-                   <li class="nav-item">
-                       <a class="nav-link text-white" asp-controller="Usuario" asp-action="Usuarios">Usuarios</a>
-                   </li>
-                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
-                     <div class="dropdown-menu">
-                       <a class="dropdown-item text-white" asp-controller="Reporte" asp-action="Ventas">Ventas</a>
-                     </div>
-                   </li>
-                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
-                     <div class="dropdown-menu">
-                       <a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Crear Nuevo</a>
-                       <a class="dropdown-item text-white" asp-controller="Home" asp-action="DetalleVenta">Ver Detalle</a>
-                     </div>
-                   </li>
-                   
-                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Inventario</a>
-                     <div class="dropdown-menu">
-                       <a class="dropdown-item text-white" asp-controller="Inventario" asp-action="Productos">Productos</a>
-                       <a class="dropdown-item text-white" asp-controller="Inventario" asp-action="Categorias">Categorias</a>
-                     </div>
-                   </li>
-               </ul>
-               <div class="d-flex">
-                    <a class="btn btn-danger" asp-controller="Acceso" asp-action="Salir"><i class="bi bi-box-arrow-right"></i> Salir</a>
+                <div class="navbar-collapse collapse" id="navbarColor01" style="">
+                    <ul class="navbar-nav me-auto">
+                        @* Verifica si el usuario tiene el rol de "Admin" *@
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Usuario" asp-action="Usuarios">Usuarios</a>
+                            </li>
+                        }
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Reportes</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-white" asp-controller="Reporte" asp-action="Ventas">Ventas</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ventas</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Crear Nuevo</a>
+                                <a class="dropdown-item text-white" asp-controller="Home" asp-action="DetalleVenta">Ver Detalle</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Inventario</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-white" asp-controller="Inventario" asp-action="Productos">Productos</a>
+                                <a class="dropdown-item text-white" asp-controller="Inventario" asp-action="Categorias">Categorias</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <a class="btn btn-danger" asp-controller="Acceso" asp-action="Salir"><i class="bi bi-box-arrow-right"></i> Salir</a>
+                    </div>
                 </div>
             </div>
-          </div>
         </nav>
     </header>
     <div class="container-fluid">
@@ -75,3 +79,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
