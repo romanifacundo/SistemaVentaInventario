@@ -37,7 +37,7 @@ namespace ProyectoVenta.Datos
             return respuesta;
         }
 
-        public Venta Detalle(string nrodocumento) {
+        public Venta Detalle(string codigoventa) {
             Venta? oVenta = new Venta();
             var cn = new Conexion();
             try
@@ -46,7 +46,7 @@ namespace ProyectoVenta.Datos
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("sp_detalle_venta", oconexion);
-                    cmd.Parameters.AddWithValue("nrodocumento", nrodocumento);
+                    cmd.Parameters.AddWithValue("codigoventa", codigoventa);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     XmlReader dr = cmd.ExecuteXmlReader();
@@ -58,8 +58,8 @@ namespace ProyectoVenta.Datos
                                                                    select new Venta()
                                                                    {
                                                                        TipoPago = v.Element("TipoPago").Value,
-                                                                       NumeroDocumento = v.Element("NumeroDocumento").Value,
-                                                                       DocumentoCliente = v.Element("DocumentoCliente").Value,
+                                                                       CodigoVenta = v.Element("CodigoVenta").Value,
+                                                                       DocumentoCliente = v.Element("NumeroDocumento").Value,
                                                                        NombreCliente = v.Element("NombreCliente").Value,
                                                                        MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon").Value,new CultureInfo("es-PE")),
                                                                        MontoCambio = Convert.ToDecimal(v.Element("MontoCambio").Value,new CultureInfo("es-PE")),
