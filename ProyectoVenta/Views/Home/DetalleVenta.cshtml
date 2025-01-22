@@ -38,9 +38,9 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="row align-items-end text-end">
-                            <label for="txtNumeroDocumento" class="col-sm-6 col-form-label">Numero Documento:</label>
+                            <label for="txtCodigoVenta" class="col-sm-6 col-form-label">Código de Venta:</label>
                             <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-sm" id="txtNumeroDocumento" autocomplete="off"/>
+                                <input type="text" class="form-control form-control-sm" id="txtCodigoVenta" autocomplete="off" />
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
         $("#btnbuscar").on("click", function () {
 
             jQuery.ajax({
-                url: '@Url.Action("ObtenerVenta", "Home")?nrodocumento=' + $("#txtNumeroDocumento").val(),
+                url: '@Url.Action("ObtenerVenta", "Home")?codigoventa=' + $("#txtCodigoVenta").val(),
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
