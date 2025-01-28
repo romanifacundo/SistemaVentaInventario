@@ -137,15 +137,13 @@
                         <div class="col-sm-6">
                             <label class="form-label">Confirmar Contraeña</label>
                             <input type="password" class="form-control form-control-sm myCpwdClass" id="txtclaveconfirmar" required />
-                            @*<div class="valid-feedback" id="cPwdValid">Contraseñas coinciden</div>
-                            <div class="invalid-feedback" id="cPwdInvalid">Las contraseñas no coinciden</div>*@
                             <div class="invalid-feedback" id="cPwdInvalid">Ingrese contraseña</div>
                         </div>
                         <!-- Rol -->
                         <div class="col-sm-6">
-                            <label class="form-label">Rol</label>
-                            <input type="text" class="form-control form-control-sm" id="txtrol" required />
-                            <div class="invalid-feedback">Ingrese el rol del usuario</div>
+                            <label class="form-label">Rol (1-Empleado 2-Administrador)</label>
+                            <input type="number" class="form-control form-control-sm" id="txtrol" min="1" max="2" required style="-webkit-appearance: none; -moz-appearance: textfield;" />    
+                            <div class="invalid-feedback">Rol del usuario debe ser 1 o 2 solo numeros</div>
                         </div>
                     </div>
                 </form>
@@ -269,7 +267,7 @@
                             var regexr = '({search})'; //$(this).parents('th').find('select').val();
 
                             var cursorPosition = this.selectionStart;
-                            // Search the column for that value
+
                             api.column(colIdx).search(
                                 this.value != '' ? regexr.replace('{search}', '(((' + this.value + ')))') : '',
                                 this.value != '',
@@ -297,16 +295,27 @@
 
         })
 
+        document.getElementById("txtrol").addEventListener("input", function (e) {
+            const input = e.target;
+            const value = input.value;
+
+            // Validar si el valor está fuera del rango
+            if (value < 1 || value > 2) {
+                input.setCustomValidity("El rol debe ser 1 (Empleado) o 2 (Administrador).");
+                input.classList.add("is-invalid");
+            } else {
+                input.setCustomValidity("");
+                input.classList.remove("is-invalid");
+            }
+        });
+
+
 
 
         $("#btnguardarusuario").on("click", function () {
 
-            //BUSCAR EN GOOGLE 2Validation · Bootstrap v5.0""
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.querySelectorAll('.needs-validation')
 
-            // Loop over them and prevent submission
             Array.prototype.slice.call(forms).forEach(function (form) {
 
                 if (form.checkValidity()) {
@@ -426,26 +435,6 @@
 
             console.log(data);
         })
-
-
-        //$('#txtclave, #txtclaveconfirmar').on('keyup', function () {
-        //     if ($('#txtclave').val() != '' && $('#txtclaveconfirmar').val() != '' && $('#txtclave').val() == $('#txtclaveconfirmar').val() ) {
-
-        //      $('#cPwdValid').show();
-        //      $('#cPwdInvalid').hide();
-        //      $('#cPwdInvalid').html('Passwords Match').css('color', 'green');
-        //      $('.myCpwdClass').addClass('is-valid');
-        //      $('.myCpwdClass').removeClass('is-invalid');
-
-        //    } else {
-        //      $('#cPwdValid').hide();
-        //      $('#cPwdInvalid').show();
-        //      $('#cPwdInvalid').html('Not Matching').css('color', 'red');
-        //      $('.myCpwdClass').removeClass('is-valid');
-        //      $('.myCpwdClass').addClass('is-invalid');
-        //    }
-
-        //})
 
         function limpiarControles() {
             $("#txtnombrecompleto").val("");

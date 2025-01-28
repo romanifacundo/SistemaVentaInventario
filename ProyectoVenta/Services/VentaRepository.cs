@@ -1,16 +1,15 @@
-﻿using ProyectoVenta.Models;
+﻿using ProyectoVenta.Datos;
+using ProyectoVenta.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ProyectoVenta.Datos
+namespace ProyectoVenta.Services
 {
-    public class DA_Venta
+    public class VentaRepository : IVentaRepository
     {
-
-
         public string Registrar(string venta_xml)
         {
             string respuesta = "";
@@ -22,7 +21,7 @@ namespace ProyectoVenta.Datos
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("sp_registrar_venta", oconexion);
                     cmd.Parameters.Add("Venta_xml", SqlDbType.Xml).Value = venta_xml;
-                    cmd.Parameters.Add("NroDocumento", SqlDbType.VarChar,6).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("NroDocumento", SqlDbType.VarChar, 6).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();
@@ -37,7 +36,8 @@ namespace ProyectoVenta.Datos
             return respuesta;
         }
 
-        public Venta Detalle(string codigoventa) {
+        public Venta Detalle(string codigoventa)
+        {
             Venta? oVenta = new Venta();
             var cn = new Conexion();
             try
@@ -51,31 +51,34 @@ namespace ProyectoVenta.Datos
 
                     XmlReader dr = cmd.ExecuteXmlReader();
 
-                    if (dr.Read()) {
+                    if (dr.Read())
+                    {
                         XDocument doc = XDocument.Load(dr);
 
-                        oVenta = (doc.Element("Venta") != null) ? (from v in doc.Elements("Venta")
+                        oVenta = doc.Element("Venta") != null ? (from v in doc.Elements("Venta")
                                                                    select new Venta()
                                                                    {
                                                                        TipoPago = v.Element("TipoPago").Value,
                                                                        CodigoVenta = v.Element("CodigoVenta").Value,
                                                                        DocumentoCliente = v.Element("NumeroDocumento").Value,
                                                                        NombreCliente = v.Element("NombreCliente").Value,
-                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon").Value,new CultureInfo("es-PE")),
-                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio").Value,new CultureInfo("es-PE")),
-                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal").Value,new CultureInfo("es-PE")),
-                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV").Value,new CultureInfo("es-PE")),
-                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal").Value,new CultureInfo("es-PE")),
+                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon").Value, new CultureInfo("es-PE")),
+                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio").Value, new CultureInfo("es-PE")),
+                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal").Value, new CultureInfo("es-PE")),
+                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV").Value, new CultureInfo("es-PE")),
+                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal").Value, new CultureInfo("es-PE")),
                                                                        FechaRegistro = v.Element("FechaRegistro").Value,
-                                                                       oDetalleVenta = (v.Element("DetalleVenta") != null) ? (from i in v.Element("DetalleVenta").Elements("Item")
-                                                                                                                              select new Detalle_Venta() {
-                                                                                                                                  oProducto = new Producto() {
-                                                                                                                                      Descripcion = i.Element("Descripcion").Value 
+                                                                       oDetalleVenta = v.Element("DetalleVenta") != null ? (from i in v.Element("DetalleVenta").Elements("Item")
+                                                                                                                              select new Detalle_Venta()
+                                                                                                                              {
+                                                                                                                                  oProducto = new Producto()
+                                                                                                                                  {
+                                                                                                                                      Descripcion = i.Element("Descripcion").Value
                                                                                                                                   },
                                                                                                                                   Cantidad = Convert.ToInt32(i.Element("Cantidad").Value),
                                                                                                                                   PrecioVenta = Convert.ToDecimal(i.Element("PrecioVenta").Value, new CultureInfo("es-PE")),
                                                                                                                                   Total = Convert.ToDecimal(i.Element("Total").Value, new CultureInfo("es-PE")),
-                                                                                                                              }).ToList(): new List<Detalle_Venta> ()
+                                                                                                                              }).ToList() : new List<Detalle_Venta>()
 
                                                                    }).FirstOrDefault() : new Venta();
 
@@ -91,7 +94,6 @@ namespace ProyectoVenta.Datos
 
             return oVenta;
         }
-
 
     }
 }

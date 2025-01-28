@@ -1,15 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProyectoVenta.Datos;
 using ProyectoVenta.Models;
+using ProyectoVenta.Services;
 
 namespace ProyectoVenta.Controllers
 {
     [Authorize]
     public class InventarioController : Controller
     {
-        DA_Producto _daProducto = new DA_Producto();
-        DA_Categoria _daCategoria = new DA_Categoria();
+        private readonly ICategoriaRepository _categoriaRepository;
+        private readonly IProductoRepository _productoRepository;
+
+        public InventarioController(ICategoriaRepository categoriaRepository, 
+                                    IProductoRepository productoRepository)
+        {
+            _categoriaRepository = categoriaRepository;
+            _productoRepository = productoRepository;
+        }
 
         public IActionResult Productos()
         {
@@ -25,11 +32,9 @@ namespace ProyectoVenta.Controllers
         public JsonResult ListaProducto()
         {
             List<Producto> oLista = new List<Producto>();
-            oLista = _daProducto.Listar();
+            oLista = _productoRepository.Listar();
             return Json(new { data = oLista });
         }
-       
-
 
         [HttpPost]
         public JsonResult GuardarProducto([FromBody] Producto obj)
@@ -39,10 +44,10 @@ namespace ProyectoVenta.Controllers
 
             if (operacion == "crear")
             {
-                respuesta = _daProducto.Guardar(obj);
+                respuesta = _productoRepository.Guardar(obj);
             }
             else {
-                respuesta = _daProducto.Editar(obj);
+                respuesta = _productoRepository.Editar(obj);
             }
             
 
@@ -53,7 +58,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult EliminarProducto(int idproducto)
         {
             bool respuesta;
-            respuesta = _daProducto.Eliminar(idproducto);
+            respuesta = _productoRepository.Eliminar(idproducto);
             return Json(new { respuesta = respuesta });
         }
 
@@ -61,7 +66,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult ListaCategoria()
         {
             List<Categoria> oLista = new List<Categoria>();
-            oLista = _daCategoria.Listar();
+            oLista = _categoriaRepository.Listar();
             return Json(new { data = oLista });
         }
 
@@ -73,11 +78,11 @@ namespace ProyectoVenta.Controllers
 
             if (operacion == "crear")
             {
-                respuesta = _daCategoria.Guardar(obj);
+                respuesta = _categoriaRepository.Guardar(obj);
             }
             else
             {
-                respuesta = _daCategoria.Editar(obj);
+                respuesta = _categoriaRepository.Editar(obj);
             }
 
 
@@ -88,7 +93,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult EliminarCategoria(int idcategoria)
         {
             bool respuesta;
-            respuesta = _daCategoria.Eliminar(idcategoria);
+            respuesta = _categoriaRepository.Eliminar(idcategoria);
             return Json(new { respuesta = respuesta });
         }
 

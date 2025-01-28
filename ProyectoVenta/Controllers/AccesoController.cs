@@ -7,58 +7,53 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using ProyectoVenta.Services;
 
 namespace ProyectoVenta.Controllers
 {
     public class AccesoController : Controller
     {
-        DA_Usuario _daUsuario = new DA_Usuario();
+        private readonly IUsuarioRepository _usuarioRepository;
+
+        public AccesoController(IUsuarioRepository usuarioRepository)
+        {
+            _usuarioRepository = usuarioRepository;
+        }
 
         public IActionResult Index()
         {
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Index(string correo, string clave)
         {
-            Usuario ouser = new Usuario();
-            ouser = _daUsuario.Listar().Where(u => u.Correo == correo && u.Clave == clave).FirstOrDefault();
+            Usuario user = new Usuario();
+            user = _usuarioRepository.Listar().Where(u => u.Correo == correo && u.Clave == clave).FirstOrDefault();
 
-            if (ouser == null)
+            if (user == null)
             {
                 ViewData["mensaje"] = "Usuario no encontrado";
                 return View();
             }
 
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Name, ouser.Correo),
-            //    new Claim("NombreCompleto", ouser.NombreCompleto),
-            //    new Claim(ClaimTypes.Role, "Administrador"),
-            //};
-
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, ouser.Correo),
-                new Claim("NombreCompleto", ouser.NombreCompleto),
-                new Claim(ClaimTypes.Role, ouser.Rol.Descripcion) // Asigna el rol dinámicamente
+                new Claim(ClaimTypes.Name, user.Correo),
+                new Claim("NombreCompleto", user.NombreCompleto),
+                new Claim(ClaimTypes.Role, user.Rol.Descripcion) // Asigna el rol dinámicamente
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            //SESIONES
-            //HttpContext.Session.SetString("correo", correo);
-
             return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Salir()
         {
-            // Clear the existing external cookie
+            // Clear cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Acceso");

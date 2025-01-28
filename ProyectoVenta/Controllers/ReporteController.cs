@@ -1,14 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProyectoVenta.Datos;
 using ProyectoVenta.Models;
+using ProyectoVenta.Services;
 
 namespace ProyectoVenta.Controllers
 {
     [Authorize]
     public class ReporteController : Controller
     {
-        DA_Reporte _daReporte = new DA_Reporte();
+        private readonly IReporteRepository _reporteRepository;
+
+        public ReporteController(IReporteRepository reporteRepository) 
+        {
+            _reporteRepository = reporteRepository;
+        }
+
         public IActionResult Ventas()
         {
             return View();
@@ -18,7 +24,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult ReporteVenta(string fechaInicio, string fechaFin)
         {
             List<Reporte> oLista = new List<Reporte>();
-            oLista = _daReporte.Listar(fechaInicio, fechaFin);
+            oLista = _reporteRepository.Listar(fechaInicio, fechaFin);
             return Json(new { data = oLista });
         }
     }
