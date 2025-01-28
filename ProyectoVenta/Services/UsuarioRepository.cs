@@ -1,10 +1,13 @@
-﻿using ProyectoVenta.Models;
-using System.Data;
+﻿using ProyectoVenta.Datos; 
+using ProyectoVenta.Models;
+using ProyectoVenta.Services;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 
-namespace ProyectoVenta.Datos
+namespace ProyectoVenta.Repository
 {
-    public class DA_Usuario
+    public class UsuarioRepository : IUsuarioRepository
     {
         public List<Usuario> Listar()
         {
@@ -73,6 +76,7 @@ namespace ProyectoVenta.Datos
             return respuesta;
         }
 
+
         public bool Editar(Usuario obj)
         {
             bool respuesta;
@@ -100,6 +104,7 @@ namespace ProyectoVenta.Datos
             return respuesta;
         }
 
+
         public bool Eliminar(int idUsuario)
         {
             bool respuesta;
@@ -124,3 +129,4 @@ namespace ProyectoVenta.Datos
         }
     }
 }
+

@@ -1,22 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoVenta.Datos;
 using ProyectoVenta.Models;
 using System.Xml.Linq;
 
 using Microsoft.AspNetCore.Authorization;
+using ProyectoVenta.Services;
 
 namespace ProyectoVenta.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        DA_Producto _daProducto = new DA_Producto();
-        DA_Venta _daVenta = new DA_Venta();
+        private readonly IVentaRepository _ventaRepository;
+        private readonly IProductoRepository _productoRepository;
+
+        public HomeController(IVentaRepository ventaRepository,
+                       IProductoRepository productoRepository)
+        {
+            _productoRepository = productoRepository;
+            _ventaRepository = ventaRepository;
+        }
 
         public IActionResult Index()
         {
             return View();
         }
+
         public IActionResult DetalleVenta()
         {
             return View();
@@ -31,7 +39,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult AutoCompleteProducto(string search)
         {
             List<Autocomplete> autocomplete = new List<Autocomplete>();
-            autocomplete = _daProducto.Listar()
+            autocomplete = _productoRepository.Listar()
                 .Where(x => string.Concat(x.Codigo.ToUpper(), x.oCategoria.Descripcion.ToUpper(), x.Descripcion.ToUpper()).Contains(search.ToUpper()))
                 .Select(m => new Autocomplete
                 {
@@ -47,7 +55,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult ObtenerProducto(int idproducto)
         {
             Producto? oProducto = new Producto();
-            oProducto = _daProducto.Listar().Where(x => x.IdProducto == idproducto).FirstOrDefault();
+            oProducto = _productoRepository.Listar().Where(x => x.IdProducto == idproducto).FirstOrDefault();
             return Json(oProducto);
         }
 
@@ -82,7 +90,7 @@ namespace ProyectoVenta.Controllers
 
             venta.Add(oDetalleVenta);
 
-            rpta = _daVenta.Registrar(venta.ToString());
+            rpta = _ventaRepository.Registrar(venta.ToString());
 
             return Json(new { respuesta = rpta });
         }
@@ -91,7 +99,7 @@ namespace ProyectoVenta.Controllers
         public JsonResult ObtenerVenta(string codigoventa)
         {
             Venta? oVenta = new Venta();
-            oVenta = _daVenta.Detalle(codigoventa);
+            oVenta = _ventaRepository.Detalle(codigoventa);
             return Json(oVenta);
         }
 

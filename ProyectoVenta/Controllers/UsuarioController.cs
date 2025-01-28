@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProyectoVenta.Datos;
 using ProyectoVenta.Models;
-using System.Security.Claims;
+using ProyectoVenta.Services; 
+using System.Collections.Generic;
 
 namespace ProyectoVenta.Controllers
 {
     [Authorize]
     public class UsuarioController : Controller
     {
-        DA_Usuario _daUsuario = new DA_Usuario();
+        private readonly IUsuarioRepository _usuarioRepository;
+
+        public UsuarioController(IUsuarioRepository usuarioRepository)
+        {
+            _usuarioRepository = usuarioRepository;
+        }
 
         [Authorize(Roles = "Administrador")]
         public IActionResult Usuarios()
@@ -17,15 +22,12 @@ namespace ProyectoVenta.Controllers
             return View();
         }
 
-
         [HttpGet]
         public JsonResult ListaUsuario()
         {
-            List<Usuario> oLista = new List<Usuario>();
-            oLista = _daUsuario.Listar();
+            var oLista = _usuarioRepository.Listar();
             return Json(new { data = oLista });
         }
-
 
         [HttpPost]
         public JsonResult GuardarUsuario([FromBody] Usuario obj)
@@ -33,26 +35,17 @@ namespace ProyectoVenta.Controllers
             string operacion = Request.Headers["operacion"];
             bool respuesta;
 
-            if (operacion == "crear")
-            {
-                respuesta = _daUsuario.Guardar(obj);
-            }
-            else
-            {
-                respuesta = _daUsuario.Editar(obj);
-            }
-
+            respuesta = operacion == "crear" ? _usuarioRepository.Guardar(obj) : _usuarioRepository.Editar(obj);
 
             return Json(new { respuesta = respuesta });
         }
-
 
         [HttpDelete]
         public JsonResult EliminarUsuario(int idUsuario)
         {
-            bool respuesta;
-            respuesta = _daUsuario.Eliminar(idUsuario);
+            var respuesta = _usuarioRepository.Eliminar(idUsuario);
             return Json(new { respuesta = respuesta });
         }
     }
 }
+

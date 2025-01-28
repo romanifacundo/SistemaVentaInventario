@@ -1,11 +1,12 @@
-﻿using ProyectoVenta.Models;
+﻿using ProyectoVenta.Datos;
+using ProyectoVenta.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 
-namespace ProyectoVenta.Datos
+namespace ProyectoVenta.Services
 {
-    public class DA_Reporte
+    public class ReporteRepository : IReporteRepository
     {
         public List<Reporte> Listar(string fechaInicio, string fechaFin)
         {
@@ -29,7 +30,7 @@ namespace ProyectoVenta.Datos
                         oLista.Add(new Reporte()
                         {
                             TipoPago = dr["TipoPago"].ToString(),
-                            NumeroDocumento = dr["NumeroDocumento"].ToString(),
+                            //CodigoProducto = dr["CodigoProducto"].ToString(),
                             MontoTotal = Convert.ToDecimal(dr["MontoTotal"], new CultureInfo("es-PE")),
                             FechaRegistro = dr["FechaRegistro"].ToString(),
                             DesProducto = dr["DesProducto"].ToString(),
@@ -43,7 +44,6 @@ namespace ProyectoVenta.Datos
 
             return oLista;
         }
-
 
     }
 }
