@@ -58,17 +58,18 @@ namespace ProyectoVenta.Services
                         oVenta = doc.Element("Venta") != null ? (from v in doc.Elements("Venta")
                                                                    select new Venta()
                                                                    {
-                                                                       TipoPago = v.Element("TipoPago").Value,
-                                                                       CodigoVenta = v.Element("CodigoVenta").Value,
-                                                                       DocumentoCliente = v.Element("NumeroDocumento").Value,
-                                                                       NombreCliente = v.Element("NombreCliente").Value,
-                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon").Value, new CultureInfo("es-PE")),
-                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio").Value, new CultureInfo("es-PE")),
-                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal").Value, new CultureInfo("es-PE")),
-                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV").Value, new CultureInfo("es-PE")),
-                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal").Value, new CultureInfo("es-PE")),
-                                                                       FechaRegistro = v.Element("FechaRegistro").Value,
-                                                                       oDetalleVenta = v.Element("DetalleVenta") != null ? (from i in v.Element("DetalleVenta").Elements("Item")
+                                                                       TipoPago = v.Element("TipoPago")?.Value ?? string.Empty,
+                                                                       CodigoVenta = v.Element("CodigoVenta")?.Value ?? string.Empty,
+                                                                       DocumentoCliente = v.Element("NumeroDocumento")?.Value ?? string.Empty,
+                                                                       NombreCliente = v.Element("NombreCliente")?.Value ?? string.Empty,
+                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       FechaRegistro = v.Element("FechaRegistro")?.Value ?? string.Empty,
+                                                                       oDetalleVenta = v.Element("DetalleVenta") != null ? 
+                                                                       (from i in v.Element("DetalleVenta").Elements("Item")
                                                                                                                               select new Detalle_Venta()
                                                                                                                               {
                                                                                                                                   oProducto = new Producto()
