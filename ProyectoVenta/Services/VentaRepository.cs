@@ -59,8 +59,8 @@ namespace ProyectoVenta.Services
                                                                    select new Venta()
                                                                    {
                                                                        TipoPago = v.Element("TipoPago")?.Value ?? string.Empty,
-                                                                       CodigoVenta = v.Element("CodigoVenta")?.Value ?? string.Empty,
-                                                                       DocumentoCliente = v.Element("NumeroDocumento")?.Value ?? string.Empty,
+                                                                       NumeroDocumento = v.Element("NumeroDocumento")?.Value ?? string.Empty,
+                                                                       DocumentoCliente = v.Element("DocumentoCliente")?.Value ?? string.Empty,
                                                                        NombreCliente = v.Element("NombreCliente")?.Value ?? string.Empty,
                                                                        MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon")?.Value ?? "0", new CultureInfo("es-PE")),
                                                                        MontoCambio = Convert.ToDecimal(v.Element("MontoCambio")?.Value ?? "0", new CultureInfo("es-PE")),

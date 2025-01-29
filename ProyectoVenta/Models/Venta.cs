@@ -5,7 +5,7 @@
 
         public int IdVenta { get; set; }
         public string TipoPago { get; set; }
-        public string CodigoVenta { get; set; }
+        public string NumeroDocumento { get; set; }
         public string DocumentoCliente { get; set; }
         public string NombreCliente { get; set; }
         public decimal MontoPagoCon { get; set; }

@@ -30,7 +30,7 @@ namespace ProyectoVenta.Services
                         oLista.Add(new Reporte()
                         {
                             TipoPago = dr["TipoPago"].ToString(),
-                            //CodigoProducto = dr["CodigoProducto"].ToString(),
+                            NumeroDocumento = dr["NumeroDocumento"]?.ToString() ?? string.Empty,
                             MontoTotal = Convert.ToDecimal(dr["MontoTotal"], new CultureInfo("es-PE")),
                             FechaRegistro = dr["FechaRegistro"].ToString(),
                             DesProducto = dr["DesProducto"].ToString(),

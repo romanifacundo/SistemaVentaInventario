@@ -67,7 +67,7 @@ namespace ProyectoVenta.Controllers
 
             XElement venta = new  XElement("Venta",
                 new XElement("TipoPago",body.TipoPago),
-                new XElement("CodigoVenta","0"),
+                new XElement("NumeroDocumento", "0"),
                 new XElement("DocumentoCliente",body.DocumentoCliente),
                 new XElement("NombreCliente",body.NombreCliente),
                 new XElement("MontoPagoCon",body.MontoPagoCon),
@@ -96,10 +96,10 @@ namespace ProyectoVenta.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObtenerVenta(string codigoventa)
+        public JsonResult ObtenerVenta(string nrodocumento)
         {
             Venta? oVenta = new Venta();
-            oVenta = _ventaRepository.Detalle(codigoventa);
+            oVenta = _ventaRepository.Detalle(nrodocumento);
             return Json(oVenta);
         }
 
