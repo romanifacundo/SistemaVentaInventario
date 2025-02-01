@@ -31,8 +31,8 @@ namespace ProyectoVenta.Services
                             Codigo = dr["Codigo"].ToString(),
                             oCategoria = new Categoria() { IdCategoria = Convert.ToInt32(dr["IdCategoria"]), Descripcion = dr["DesCategoria"].ToString() },
                             Descripcion = dr["Descripcion"].ToString(),
-                            PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"], new CultureInfo("es-PE")),
-                            PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
+                            PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"], new CultureInfo("es-AR")),
+                            PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-AR")),
                             Stock = Convert.ToInt32(dr["Stock"]),
                         });
 

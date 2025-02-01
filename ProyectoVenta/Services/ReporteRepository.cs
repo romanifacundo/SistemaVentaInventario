@@ -31,12 +31,12 @@ namespace ProyectoVenta.Services
                         {
                             TipoPago = dr["TipoPago"].ToString(),
                             NumeroDocumento = dr["NumeroDocumento"]?.ToString() ?? string.Empty,
-                            MontoTotal = Convert.ToDecimal(dr["MontoTotal"], new CultureInfo("es-PE")),
+                            MontoTotal = Convert.ToDecimal(dr["MontoTotal"], new CultureInfo("es-AR")),
                             FechaRegistro = dr["FechaRegistro"].ToString(),
                             DesProducto = dr["DesProducto"].ToString(),
                             Cantidad = Convert.ToInt32(dr["Cantidad"]),
-                            PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
-                            Total = Convert.ToDecimal(dr["Total"], new CultureInfo("es-PE")),
+                            PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-AR")),
+                            Total = Convert.ToDecimal(dr["Total"], new CultureInfo("es-AR")),
                         });
                     }
                 }

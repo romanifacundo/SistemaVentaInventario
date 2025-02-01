@@ -4,6 +4,8 @@ using System.Xml.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 using ProyectoVenta.Services;
+using System.Reflection;
+using Rotativa.AspNetCore;
 
 namespace ProyectoVenta.Controllers
 {
@@ -30,9 +32,19 @@ namespace ProyectoVenta.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult DescargarPDF(string numeroDocumento)
         {
-            return View();
+            var oVenta = _ventaRepository.Detalle(numeroDocumento);  
+
+            if (oVenta == null || string.IsNullOrEmpty(oVenta.NumeroDocumento))
+            {
+                return NotFound("Venta no encontrada.");
+            }
+
+            return new ViewAsPdf("PDFVenta", oVenta)
+            {
+                FileName = $"Venta_{oVenta.NumeroDocumento}.pdf"
+            };
         }
 
         [HttpGet]

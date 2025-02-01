@@ -36,7 +36,7 @@ namespace ProyectoVenta.Services
             return respuesta;
         }
 
-        public Venta Detalle(string codigoventa)
+        public Venta Detalle(string nrodocumento)
         {
             Venta? oVenta = new Venta();
             var cn = new Conexion();
@@ -46,7 +46,7 @@ namespace ProyectoVenta.Services
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("sp_detalle_venta", oconexion);
-                    cmd.Parameters.AddWithValue("codigoventa", codigoventa);
+                    cmd.Parameters.AddWithValue("nrodocumento", nrodocumento);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     XmlReader dr = cmd.ExecuteXmlReader();
@@ -62,11 +62,11 @@ namespace ProyectoVenta.Services
                                                                        NumeroDocumento = v.Element("NumeroDocumento")?.Value ?? string.Empty,
                                                                        DocumentoCliente = v.Element("DocumentoCliente")?.Value ?? string.Empty,
                                                                        NombreCliente = v.Element("NombreCliente")?.Value ?? string.Empty,
-                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon")?.Value ?? "0", new CultureInfo("es-PE")),
-                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio")?.Value ?? "0", new CultureInfo("es-PE")),
-                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal")?.Value ?? "0", new CultureInfo("es-PE")),
-                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV")?.Value ?? "0", new CultureInfo("es-PE")),
-                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal")?.Value ?? "0", new CultureInfo("es-PE")),
+                                                                       MontoPagoCon = Convert.ToDecimal(v.Element("MontoPagoCon")?.Value ?? "0", new CultureInfo("es-AR")),
+                                                                       MontoCambio = Convert.ToDecimal(v.Element("MontoCambio")?.Value ?? "0", new CultureInfo("es-AR")),
+                                                                       MontoSubTotal = Convert.ToDecimal(v.Element("MontoSubTotal")?.Value ?? "0", new CultureInfo("es-AR")),
+                                                                       MontoIGV = Convert.ToDecimal(v.Element("MontoIGV")?.Value ?? "0", new CultureInfo("es-AR")),
+                                                                       MontoTotal = Convert.ToDecimal(v.Element("MontoTotal")?.Value ?? "0", new CultureInfo("es-AR")),
                                                                        FechaRegistro = v.Element("FechaRegistro")?.Value ?? string.Empty,
                                                                        oDetalleVenta = v.Element("DetalleVenta") != null ? 
                                                                        (from i in v.Element("DetalleVenta").Elements("Item")
@@ -77,8 +77,8 @@ namespace ProyectoVenta.Services
                                                                                                                                       Descripcion = i.Element("Descripcion").Value
                                                                                                                                   },
                                                                                                                                   Cantidad = Convert.ToInt32(i.Element("Cantidad").Value),
-                                                                                                                                  PrecioVenta = Convert.ToDecimal(i.Element("PrecioVenta").Value, new CultureInfo("es-PE")),
-                                                                                                                                  Total = Convert.ToDecimal(i.Element("Total").Value, new CultureInfo("es-PE")),
+                                                                                                                                  PrecioVenta = Convert.ToDecimal(i.Element("PrecioVenta").Value, new CultureInfo("es-AR")),
+                                                                                                                                  Total = Convert.ToDecimal(i.Element("Total").Value, new CultureInfo("es-AR")),
                                                                                                                               }).ToList() : new List<Detalle_Venta>()
 
                                                                    }).FirstOrDefault() : new Venta();
@@ -96,5 +96,5 @@ namespace ProyectoVenta.Services
             return oVenta;
         }
 
-    }
+    }   
 }

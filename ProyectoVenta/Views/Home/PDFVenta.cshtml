@@ -1,0 +1,66 @@
+﻿@model ProyectoVenta.Models.Venta
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Venta @Model.NumeroDocumento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class="title">Detalle de Venta</h2>
+    <p><strong>Número de Venta:</strong> @Model.NumeroDocumento</p>
+    <p><strong>Fecha:</strong> @Model.FechaRegistro</p>
+    <p><strong>Cliente:</strong> @Model.NombreCliente (@Model.DocumentoCliente)</p>
+    <p><strong>Tipo de Pago:</strong> @Model.TipoPago</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.oDetalleVenta)
+            {
+                <tr>
+                    <td>@item.oProducto.Descripcion</td>
+                    <td>@item.Cantidad</td>
+                    <td>@item.PrecioVenta.ToString("C", new System.Globalization.CultureInfo("es-AR"))</td>
+                    <td>@item.Total.ToString("C", new System.Globalization.CultureInfo("es-AR"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p><strong>Subtotal:</strong> @Model.MontoSubTotal.ToString("C", new System.Globalization.CultureInfo("es-AR"))</p>
+    <p><strong>IGV:</strong> @Model.MontoIGV.ToString("C", new System.Globalization.CultureInfo("es-AR"))</p>
+    <p><strong>Total:</strong> @Model.MontoTotal.ToString("C", new System.Globalization.CultureInfo("es-AR"))</p>
+</body>
+</html>
