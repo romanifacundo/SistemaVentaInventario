@@ -94,17 +94,17 @@
                     </div>
                     <div class="card-body">
 
-                       @* <div class="input-group input-group-sm mb-2">
+                    @*    <div class="input-group input-group-sm mb-2">
                           <span class="input-group-text bg-dark">Nro Venta</span>
                           <input type="text" class="form-control form-control-sm" disabled>
-                        </div>
-*@
+                        </div> *@
+
                         <div class="input-group input-group-sm mb-2">
                           <span class="input-group-text bg-dark">Tipo de Pago:</span>
                           <select class="form-select form-select-sm" id="cbotipopago" style="cursor:pointer">
                               <option value="Efectivo" selected>Efectivo</option>
                               <option value="Tarjeta">Tarjeta</option>
-                              <option value="Movil">Movil</option>
+                              <option value="Movil">Celular</option>
                           </select>
                         </div>
                         <hr />
@@ -116,7 +116,6 @@
                           <span class="input-group-text bg-dark">Cambio</span>
                           <input type="text" class="form-control form-control-sm text-end fw-bold" id="txtCambio" disabled >
                         </div>
-
                         <div class="input-group input-group-sm mb-2">
                           <span class="input-group-text bg-primary">Sub Total</span>
                           <input type="text" id="txtSubTotal" class="form-control form-control-sm text-end fw-bold" disabled>
@@ -330,9 +329,9 @@
             if($("#txtPagoCon").val().trim() == ""){
                 $("#txtPagoCon").val(total.toFixed(2));
             }
-                
 
-            $("#txtCambio").val("S/. " + cambio.toFixed(2));
+
+            $("#txtCambio").val("$ " + cambio.toFixed(2));
         }
         
 
@@ -351,14 +350,14 @@
             let base = total / 1.18;
             let igv = total - base;
 
-             $("#pVentaTotal").html("S/. " + total.toFixed(2))
-             $("#txtSubTotal").val("S/. " + base.toFixed(2))
-             $("#txtIgv").val("S/. " + igv.toFixed(2))
-             $("#txtTotal").val("S/. " + total.toFixed(2))
+            $("#pVentaTotal").html("$ " + total.toFixed(2))
+            $("#txtSubTotal").val("$ " + base.toFixed(2))
+            $("#txtIgv").val("$ " + igv.toFixed(2))
+            $("#txtTotal").val("$ " + total.toFixed(2))
 
             if(tipoPago){
-               $("#txtPagoCon").val("S/. " + total.toFixed(2))
-               $("#txtCambio").val("S/. 0.00")
+                $("#txtPagoCon").val("$ " + total.toFixed(2))
+                $("#txtCambio").val("$ 0.00")
             }
         }
 
@@ -381,10 +380,10 @@
                 DocumentoCliente : $("#txtdocumentocliente").val(),
                 NombreCliente : $("#txtnombrecliente").val(),
                 MontoPagoCon : parseFloat($("#txtPagoCon").val()),
-                MontoCambio : parseFloat($("#txtCambio").val().replace("S/. ","","gi")),
-                MontoSubTotal : parseFloat($("#txtSubTotal").val().replace("S/. ","","gi")),
-                MontoIGV : parseFloat($("#txtIgv").val().replace("S/. ","","gi")),
-                MontoTotal : parseFloat($("#txtTotal").val().replace("S/. ","","gi")),
+                MontoCambio: parseFloat($("#txtCambio").val().replace("$ ", "")),
+                MontoSubTotal: parseFloat($("#txtSubTotal").val().replace("$ ", "")),
+                MontoIGV: parseFloat($("#txtIgv").val().replace("$ ", "")),
+                MontoTotal: parseFloat($("#txtTotal").val().replace("$ ", "")),
                 oDetalleVenta : $.map(productos,function(item){
                         return {
                             oProducto: {IdProducto : item.IdProducto},
