@@ -18,8 +18,8 @@ namespace ProyectoVenta.Controllers
         public HomeController(IVentaRepository ventaRepository,
                        IProductoRepository productoRepository)
         {
-            _productoRepository = productoRepository;
-            _ventaRepository = ventaRepository;
+            this._productoRepository = productoRepository;
+            this._ventaRepository = ventaRepository;
         }
 
         public IActionResult Index()

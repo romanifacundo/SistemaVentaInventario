@@ -17,7 +17,7 @@ namespace ProyectoVenta.Controllers
 
         public AccesoController(IUsuarioRepository usuarioRepository)
         {
-            _usuarioRepository = usuarioRepository;
+            this._usuarioRepository = usuarioRepository;
         }
 
         public IActionResult Index()
@@ -31,7 +31,7 @@ namespace ProyectoVenta.Controllers
             Usuario user = new Usuario();
             user = _usuarioRepository.Listar().Where(u => u.Correo == correo && u.Clave == clave).FirstOrDefault();
 
-            if (user == null)
+            if (user is null)
             {
                 ViewData["mensaje"] = "Usuario no encontrado";
                 return View();

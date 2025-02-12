@@ -13,7 +13,7 @@ namespace ProyectoVenta.Controllers
 
         public UsuarioController(IUsuarioRepository usuarioRepository)
         {
-            _usuarioRepository = usuarioRepository;
+            this._usuarioRepository = usuarioRepository;
         }
 
         [Authorize(Roles = "Administrador")]

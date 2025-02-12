@@ -14,8 +14,8 @@ namespace ProyectoVenta.Controllers
         public InventarioController(ICategoriaRepository categoriaRepository, 
                                     IProductoRepository productoRepository)
         {
-            _categoriaRepository = categoriaRepository;
-            _productoRepository = productoRepository;
+            this._categoriaRepository = categoriaRepository;
+            this._productoRepository = productoRepository;
         }
 
         public IActionResult Productos()

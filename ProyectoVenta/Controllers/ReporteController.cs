@@ -12,7 +12,7 @@ namespace ProyectoVenta.Controllers
 
         public ReporteController(IReporteRepository reporteRepository) 
         {
-            _reporteRepository = reporteRepository;
+            this._reporteRepository = reporteRepository;
         }
 
         public IActionResult Ventas()
